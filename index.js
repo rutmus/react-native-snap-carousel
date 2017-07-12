@@ -298,7 +298,6 @@ export default class Carousel extends Component {
 
     _getCustomIndex (index, props = this.props) {
         const childrenLength = this._children(props).length;
-
         if (!childrenLength || (!index && index !== 0)) {
             return 0;
         }
@@ -315,7 +314,7 @@ export default class Carousel extends Component {
             return 0;
         }
 
-        return index;
+        return this._getCustomIndex(index);
     }
 
     _calcCardPositions (props = this.props) {
@@ -717,6 +716,7 @@ export default class Carousel extends Component {
         };
 
         return this._children().map((child, index) => {
+            index = Platform.OS === 'ios' ? this._getCustomIndex(index) : index;
             const animatedValue = this.state.interpolators[index];
 
             if (!animatedValue) {
